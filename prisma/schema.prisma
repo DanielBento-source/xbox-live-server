@@ -28,3 +28,22 @@ model Generos {
 
   @@map("generos")
 }
+
+model Usuarios {
+  id       String  @id @default(uuid())
+  Name     String  @map("name")
+  Email    String  @map("e-mail")
+  Password String  @map("password")
+  CPF      Int     @map("cpf")
+  isAdmin  Boolean @map("isAdmin")
+
+  @@map("usuarios")
+}
+
+model Perfis {
+  id       String @id @default(uuid())
+  Title    String @map("title")
+  ImageURL String @map("imageURL")
+
+  @@map("perfis")
+}
