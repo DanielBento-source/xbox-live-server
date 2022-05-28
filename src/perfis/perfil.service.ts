@@ -14,7 +14,7 @@ export class PerfisService{
     return this.prisma.perfis.findMany();
   }
 
-  async findOne(id: string):Promise<Perfil>{
+  async findById(id: string):Promise<Perfil>{
     const record = await this.prisma.perfis.findUnique({ where: { id } });
 
     if (!record) {
@@ -23,12 +23,18 @@ export class PerfisService{
 
     return record}
 
+  async findOne(id: string):Promise<Perfil>{
+    return this.findById(id)
+  }
+
     create(perfisDto: CreatePerfisDto):Promise<Perfil>{
       const data: Perfil = {...perfisDto};
     return this.prisma.perfis.create({data})
   }
 
-  update(id: string, perfisDto: UpdatePerfisDto): Promise<Perfil> {
+  async update(id: string, perfisDto: UpdatePerfisDto): Promise<Perfil> {
+    await this.findById(id)
+
     const data: Partial<Perfil> = {...perfisDto}
 
     return this.prisma.perfis.update({

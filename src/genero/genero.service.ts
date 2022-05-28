@@ -14,7 +14,7 @@ export class GenerosService{
     return this.prisma.generos.findMany();
   }
 
-  async findOne(id: string):Promise<Genero>{
+  async findById(id: string):Promise<Genero>{
     const record = await this.prisma.generos.findUnique({ where: { id } });
 
     if (!record) {
@@ -24,12 +24,18 @@ export class GenerosService{
     return record
   }
 
+  async findOne(id: string):Promise<Genero>{
+   return this.findById(id)
+  }
+
     create(generosDto: CreateGenerosDto):Promise<Genero>{
       const data: Genero = {...generosDto};
     return this.prisma.generos.create({data})
   }
 
-  update(id: string, generosDto: UpdateGenerosDto): Promise<Genero> {
+  async update(id: string, generosDto: UpdateGenerosDto): Promise<Genero> {
+    await this.findById(id)
+
     const data: Partial<Genero> = {...generosDto}
 
     return this.prisma.generos.update({

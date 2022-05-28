@@ -14,7 +14,8 @@ export class JogosService{
     return this.prisma.jogos.findMany();
   }
 
-  async findOne(id: string):Promise<Jogo>{
+  async findById(id: string):Promise<Jogo>{
+
     const record = await this.prisma.jogos.findUnique({ where: { id } });
 
     if (!record) {
@@ -24,12 +25,18 @@ export class JogosService{
     return record
   }
 
+  async findOne(id: string): Promise<Jogo>{
+    return this.findById(id)
+  }
+
     create(createDto: CreateJogosDto):Promise<Jogo>{
       const data: Jogo = {...createDto};
     return this.prisma.jogos.create({ data })
   }
 
-  update(id: string, createDto: UpdateJogosDto): Promise<Jogo> {
+  async update(id: string, createDto: UpdateJogosDto): Promise<Jogo> {
+    await this.findById(id)
+
     const data: Partial<Jogo> = {...createDto}
 
     return this.prisma.jogos.update({

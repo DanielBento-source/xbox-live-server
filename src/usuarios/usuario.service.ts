@@ -14,7 +14,7 @@ export class UsuariosService{
     return this.prisma.usuarios.findMany();
   }
 
-  async findOne(id: string):Promise<Usuario>{
+  async findById(id: string):Promise<Usuario>{
     const record = await this.prisma.usuarios.findUnique({ where: { id } });
 
     if (!record) {
@@ -23,12 +23,18 @@ export class UsuariosService{
 
     return record}
 
+  async findOne(id: string):Promise<Usuario>{
+    return this.findById(id)
+  }
+
     create(usuariosDto: CreateUsuariosDto):Promise<Usuario>{
       const data: Usuario = {...usuariosDto};
     return this.prisma.usuarios.create({data})
   }
 
-  update(id: string, usuariosDto: UpdateUsuariosDto): Promise<Usuario> {
+  async update(id: string, usuariosDto: UpdateUsuariosDto): Promise<Usuario> {
+    await this.findById(id)
+
     const data: Partial<Usuario> = {...usuariosDto}
 
     return this.prisma.usuarios.update({
