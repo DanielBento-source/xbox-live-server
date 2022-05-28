@@ -12,12 +12,12 @@ datasource db {
 model Jogos {
   id                 String @id @default(uuid())
   Title              String @unique @map("title")
-  CoverImageUrl      String @map("coverImageUrl")
+  CoverImageUrl      String @map("cover_image_url")
   Description        String @map("description")
   Year               Int    @map("year")
-  ImdbScore          Int    @map("imdbScore")
-  TrailerYouTubeUrl  String @map("trailerYouTubeUrl")
-  GameplayYouTubeUrl String @map("gameplayYouTubeUrl")
+  ImdbScore          Int    @map("imdb_score")
+  TrailerYouTubeUrl  String @map("trailer_youtube_url")
+  GameplayYouTubeUrl String @map("gameplay_youtube_url")
 
   @@map("jogos")
 }
@@ -32,10 +32,10 @@ model Generos {
 model Usuarios {
   id       String  @id @default(uuid())
   Name     String  @map("name")
-  Email    String  @map("e-mail")
+  Email    String  @map("email")
   Password String  @map("password")
   CPF      Int     @map("cpf")
-  isAdmin  Boolean @map("isAdmin")
+  isAdmin  Boolean @map("is_admin")
 
   @@map("usuarios")
 }
@@ -43,7 +43,7 @@ model Usuarios {
 model Perfis {
   id       String @id @default(uuid())
   Title    String @map("title")
-  ImageURL String @map("imageURL")
+  ImageURL String @map("image_url")
 
   @@map("perfis")
 }

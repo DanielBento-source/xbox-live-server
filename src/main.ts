@@ -14,6 +14,9 @@ async function bootstrap() {
     .setVersion('1.0.0')
     .addTag('status')
     .addTag('jogos')
+    .addTag('generos')
+    .addTag('perfis')
+    .addTag('usuarios')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
