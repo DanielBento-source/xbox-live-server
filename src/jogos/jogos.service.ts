@@ -46,6 +46,8 @@ export class JogosService{
   }
 
   async delete(id: string) {
+    await this.findById(id)
+
     await this.prisma.jogos.delete({where: { id }})
   }
 }

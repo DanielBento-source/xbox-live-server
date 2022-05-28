@@ -45,6 +45,8 @@ export class GenerosService{
   }
 
   async delete(id: string) {
+    await this.findById(id)
+
     await this.prisma.generos.delete({where: { id }})
   }
 }

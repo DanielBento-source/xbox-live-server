@@ -44,6 +44,8 @@ export class PerfisService{
   }
 
   async delete(id: string) {
+    await this.findById(id)
+
     await this.prisma.perfis.delete({where: { id }})
   }
 }
