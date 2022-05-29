@@ -1,9 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException, UnprocessableEntityException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import * as bcrypt from 'bcrypt';
 import { PrismaService } from "src/prisma/prisma.service";
+import { handleError } from "src/utils/handle-error";
 import { CreateUsuariosDto } from "./dto/create-usuario-dto";
 import { UpdateUsuariosDto } from "./dto/update-usuario-dto";
 import { Usuario } from "./entidades/usuario.entidade";
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuariosService{
@@ -45,7 +46,7 @@ export class UsuariosService{
       delete usuariosDto.confirmPassword
 
       const data: Usuario = {...usuariosDto, Password: await bcrypt.hash(usuariosDto.Password, 10 )};
-    return this.prisma.usuarios.create({data, select:this.usuarioSelect }).catch(this.handleError)
+    return this.prisma.usuarios.create({data, select:this.usuarioSelect }).catch(handleError)
   }
 
   async update(id: string, usuariosDto: UpdateUsuariosDto): Promise<Usuario> {
@@ -69,7 +70,7 @@ export class UsuariosService{
       where: { id },
       data,
       select:this.usuarioSelect
-    }).catch(this.handleError)
+    }).catch(handleError)
   }
 
   async delete(id: string) {
@@ -78,9 +79,5 @@ export class UsuariosService{
     await this.prisma.usuarios.delete({where: { id }})
   }
 
-  handleError(error: Error): undefined {
-    const errorLines = error.message?.split('\n')
-    const lastErrorLines = errorLines[errorLines.length - 1]?.trim()
-    throw new UnprocessableEntityException(lastErrorLines || "Algum erro ocorreu ao executar a operação")
-  }
+
 }

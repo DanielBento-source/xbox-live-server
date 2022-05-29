@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException, UnprocessableEntityException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
+import { handleError } from "src/utils/handle-error";
 import { CreatePerfisDto } from "./dto/create-perfil-dto";
 import { UpdatePerfisDto } from "./dto/update-perfil-dto";
 import { Perfil } from "./entidades/perfil.entidade";
@@ -29,7 +30,7 @@ export class PerfisService{
 
     create(perfisDto: CreatePerfisDto):Promise<Perfil>{
       const data: Perfil = {...perfisDto};
-    return this.prisma.perfis.create({data}).catch(this.handleError)
+    return this.prisma.perfis.create({data}).catch(handleError)
   }
 
   async update(id: string, perfisDto: UpdatePerfisDto): Promise<Perfil> {
@@ -40,18 +41,12 @@ export class PerfisService{
     return this.prisma.perfis.update({
       where: { id },
       data,
-    }).catch(this.handleError)
+    }).catch(handleError)
   }
 
   async delete(id: string) {
     await this.findById(id)
 
     await this.prisma.perfis.delete({where: { id }})
-  }
-
-  handleError(error: Error): undefined {
-    const errorLines = error.message?.split('\n')
-    const lastErrorLines = errorLines[errorLines.length - 1]?.trim()
-    throw new UnprocessableEntityException(lastErrorLines || "Algum erro ocorreu ao executar a operação")
   }
 }
