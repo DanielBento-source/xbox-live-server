@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsNumber, IsPositive, IsString } from "class-validator";
+import { IsInt, IsNumber, IsPositive, IsString, IsUrl } from "class-validator";
 
 export class CreateJogosDto {
   @IsString()
@@ -9,7 +9,7 @@ export class CreateJogosDto {
   })
   Title: string;
 
-  @IsString()
+  @IsUrl()
   @ApiProperty({
     description: 'endereço da imagem de capa do jogo',
     example: 'https://images-na.ssl-images-amazon.com/images/I/81cDqBqJ-gL.__AC_SX300_SY300_QL70_ML2_.jpg',
@@ -37,14 +37,14 @@ export class CreateJogosDto {
   })
   ImdbScore: number;
 
-  @IsString()
+  @IsUrl()
   @ApiProperty({
     description: 'endereço do video de Gameplay do jogo',
     example: '<iframe width="1004" height="565" src="https://www.youtube.com/embed/XlrJ_urwp-Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
   })
   GameplayYouTubeUrl: string;
 
-  @IsString()
+  @IsUrl()
   @ApiProperty({
     description: 'endereço do trailer do jogo',
     example: '<iframe width="1004" height="565" src="https://www.youtube.com/embed/vLj-27T-SEQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
