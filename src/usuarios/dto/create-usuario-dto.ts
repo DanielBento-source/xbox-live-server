@@ -36,7 +36,7 @@ export class CreateUsuariosDto {
 
   @IsNumber()
   @ApiProperty({
-    description: 'ecpf do usuario',
+    description: 'cpf do usuario',
     example: '99999999999',
   })
   CPF: number;
