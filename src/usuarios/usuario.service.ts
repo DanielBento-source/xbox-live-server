@@ -7,16 +7,25 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuariosService{
+  private usuarioSelect = {
+      id: true,
+      Name: true,
+      Email: true,
+      CPF: true,
+      Password: false,
+      isAdmin: true
+  }
 
   constructor(private readonly prisma: PrismaService){
   }
 
   findAll():Promise<Usuario[]>{
-    return this.prisma.usuarios.findMany();
+    return this.prisma.usuarios.findMany({select:this.usuarioSelect});
   }
 
   async findById(id: string):Promise<Usuario>{
-    const record = await this.prisma.usuarios.findUnique({ where: { id } });
+    const record = await this.prisma.usuarios.findUnique({ where: { id },
+    select:this.usuarioSelect, });
 
     if (!record) {
       throw new NotFoundException(`registro com ${id} não encontrado.`)
@@ -36,7 +45,7 @@ export class UsuariosService{
       delete usuariosDto.confirmPassword
 
       const data: Usuario = {...usuariosDto, Password: await bcrypt.hash(usuariosDto.Password, 10 )};
-    return this.prisma.usuarios.create({data}).catch(this.handleError)
+    return this.prisma.usuarios.create({data, select:this.usuarioSelect }).catch(this.handleError)
   }
 
   async update(id: string, usuariosDto: UpdateUsuariosDto): Promise<Usuario> {
@@ -59,6 +68,7 @@ export class UsuariosService{
     return this.prisma.usuarios.update({
       where: { id },
       data,
+      select:this.usuarioSelect
     }).catch(this.handleError)
   }
 
