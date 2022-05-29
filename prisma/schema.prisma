@@ -19,12 +19,17 @@ model Jogos {
   TrailerYouTubeUrl  String @map("trailer_youtube_url")
   GameplayYouTubeUrl String @map("gameplay_youtube_url")
 
+  perfis  Perfis[]
+  generos Generos[]
+
   @@map("jogos")
 }
 
 model Generos {
   id   String @id @default(uuid())
   Name String @unique @map("name")
+
+  jogos Jogos[]
 
   @@map("generos")
 }
@@ -37,6 +42,8 @@ model Usuarios {
   CPF      Int     @map("cpf")
   isAdmin  Boolean @map("is_admin")
 
+  perfis Perfis[]
+
   @@map("usuarios")
 }
 
@@ -44,6 +51,11 @@ model Perfis {
   id       String @id @default(uuid())
   Title    String @map("title")
   ImageURL String @map("image_url")
+
+  jogos Jogos[]
+
+  usuarios   Usuarios @relation(fields: [usuariosId], references: [id])
+  usuariosId String   @map("usuarios_id")
 
   @@map("perfis")
 }
