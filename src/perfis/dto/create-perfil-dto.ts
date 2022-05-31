@@ -22,4 +22,12 @@ export class CreatePerfisDto {
     example: 'asfdx52xq62xdqwd51cq5ef1ce5f1',
   })
   UsuariosId: string;
+
+  @IsUUID(undefined, {each: true})
+  @ApiProperty({
+    description: 'lista de Id dos Jogos',
+    example: '[asfdx52xq62xdqwd51cq5ef1ce5f1,  sfcwefcewcwecqcqce5cqwce85fc1e]',
+  })
+  JogosId: string[];
+
 }

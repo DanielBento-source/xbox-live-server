@@ -16,7 +16,6 @@ export class UsuariosService{
       CPF: true,
       Password: false,
       isAdmin: true,
-      Perfis: true
   }
 
   constructor(private readonly prisma: PrismaService){

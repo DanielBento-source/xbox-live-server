@@ -13,11 +13,40 @@ export class PerfisService{
   }
 
   findAll():Promise<Perfil[]>{
-    return this.prisma.perfis.findMany();
+    return this.prisma.perfis.findMany({
+      select:{
+        id: true,
+        ImageURL: true,
+        Title: true,
+        jogos:{
+          select:{
+            Title: true,
+          }
+        },
+        usuarios:{
+          select:{
+            Name: true
+          }
+        }
+      }
+    });
   }
 
   async findById(id: string):Promise<Perfil>{
-    const record = await this.prisma.perfis.findUnique({ where: { id } });
+    const record = await this.prisma.perfis.findUnique({ where: { id },
+    include:{
+      usuarios: {
+        select:{
+          Name: true,
+        }
+      },
+      jogos:{
+        select:{
+          Title: true,
+        }
+      }
+
+    } });
 
     if (!record) {
       throw new NotFoundException(`registro com ${id} não encontrado.`)
@@ -29,19 +58,41 @@ export class PerfisService{
     return this.findById(id)
   }
 
-    create(perfisDto: CreatePerfisDto){
+    create(createPerfisDto: CreatePerfisDto){
       const data: Prisma.PerfisCreateInput = {
-         Title: perfisDto.Title,
-         ImageURL: perfisDto.ImageURL,
+         Title: createPerfisDto.Title,
+         ImageURL: createPerfisDto.ImageURL,
+         jogos: {
+           connect: createPerfisDto.JogosId.map((IdDosJogos) => ({
+           id: IdDosJogos,
+         }))},
          usuarios: {
            connect: {
-            id: perfisDto.UsuariosId
+            id: createPerfisDto.UsuariosId
            }
          }
 
       }
 
-      return this.prisma.perfis.create({ data }).catch(handleError)
+      return this.prisma.perfis.create({
+        data,
+        select:{
+          id: true,
+          ImageURL: true,
+          Title: true,
+          jogos:{
+            select:{
+              Title: true,
+            }
+          },
+          usuarios:{
+            select:{
+              Name: true
+            }
+          }
+        }
+
+      }).catch(handleError)
   }
 
   async update(id: string, updatePerfisDto: UpdatePerfisDto): Promise<Perfil> {
@@ -49,12 +100,18 @@ export class PerfisService{
 
     const data: Prisma.PerfisUpdateInput = {
       Title: updatePerfisDto.Title,
-         ImageURL: updatePerfisDto.ImageURL,
+      ImageURL: updatePerfisDto.ImageURL,
+      jogos: {
+        connect: updatePerfisDto.JogosId.map((IdDosJogos) => ({
+          id: IdDosJogos,
+        }))
+      },
          usuarios: {
            connect: {
             id: updatePerfisDto.UsuariosId
            }
          }
+
     }
 
     return this.prisma.perfis.update({
