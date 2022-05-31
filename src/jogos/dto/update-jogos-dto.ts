@@ -10,4 +10,5 @@ export class UpdateJogosDto extends PartialType(CreateJogosDto){
   GameplayYouTubeUrl?: string;
   CoverImageUrl?: string;
   Description?: string;
+  Generos?: string[];
 }

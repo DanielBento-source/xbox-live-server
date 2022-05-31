@@ -54,8 +54,8 @@ model Perfis {
 
   jogos Jogos[]
 
-  usuarios   Usuarios @relation(fields: [usuariosId], references: [id])
-  usuariosId String   @map("usuarios_id")
+  usuarios   Usuarios? @relation(fields: [usuariosId], references: [id])
+  usuariosId String?   @map("usuarios_id")
 
   @@map("perfis")
 }

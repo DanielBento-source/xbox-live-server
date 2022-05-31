@@ -35,13 +35,13 @@ export class JogosController {
     return this.jogosService.create(dto)
   }
 
-  @Patch(':id')
-  @ApiOperation({
-    summary: 'Editar um jogo pelo ID'
-  })
-  update(@Param('id')id: string, @Body() dto: UpdateJogosDto): Promise<Jogo>{
-    return this.jogosService.update(id,dto)
-  }
+  // @Patch(':id')
+  // @ApiOperation({
+  //   summary: 'Editar um jogo pelo ID'
+  // })
+  // update(@Param('id')id: string, @Body() dto: UpdateJogosDto): Promise<Jogo>{
+  //   return this.jogosService.update(id,dto)
+  // }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)

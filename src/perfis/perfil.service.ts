@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 import { handleError } from "src/utils/handle-error";
 import { CreatePerfisDto } from "./dto/create-perfil-dto";
@@ -28,15 +29,33 @@ export class PerfisService{
     return this.findById(id)
   }
 
-    create(perfisDto: CreatePerfisDto):Promise<Perfil>{
-      const data: Perfil = {...perfisDto};
-    return this.prisma.perfis.create({data}).catch(handleError)
+    create(perfisDto: CreatePerfisDto){
+      const data: Prisma.PerfisCreateInput = {
+         Title: perfisDto.Title,
+         ImageURL: perfisDto.ImageURL,
+         usuarios: {
+           connect: {
+            id: perfisDto.UsuariosId
+           }
+         }
+
+      }
+
+      return this.prisma.perfis.create({ data }).catch(handleError)
   }
 
-  async update(id: string, perfisDto: UpdatePerfisDto): Promise<Perfil> {
+  async update(id: string, updatePerfisDto: UpdatePerfisDto): Promise<Perfil> {
     await this.findById(id)
 
-    const data: Partial<Perfil> = {...perfisDto}
+    const data: Prisma.PerfisUpdateInput = {
+      Title: updatePerfisDto.Title,
+         ImageURL: updatePerfisDto.ImageURL,
+         usuarios: {
+           connect: {
+            id: updatePerfisDto.UsuariosId
+           }
+         }
+    }
 
     return this.prisma.perfis.update({
       where: { id },

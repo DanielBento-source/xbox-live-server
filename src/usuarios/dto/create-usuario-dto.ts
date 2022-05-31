@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsNumber, IsString, Matches, MinLength } from "class-validator";
+import { IsBoolean, IsNumber, IsString, IsUUID, isUUID, Matches, MinLength } from "class-validator";
 
 export class CreateUsuariosDto {
   @IsString()
@@ -47,5 +47,12 @@ export class CreateUsuariosDto {
     example: 'sim ou não',
   })
   isAdmin: boolean;
+
+  @IsUUID(undefined, {each: true})
+  @ApiProperty({
+    description: 'Id dos perfis',
+    example: 'asfdx52xq62xdqwd51cq5ef1ce5f1',
+  })
+  Perfis: string[];
 
 }

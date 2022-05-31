@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsUrl } from "class-validator";
+import { IsString, IsUrl, IsUUID } from "class-validator";
 
 export class CreatePerfisDto {
   @IsString()
@@ -15,4 +15,11 @@ export class CreatePerfisDto {
     example: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3T9eEHiKYXbob3G0jwXi6xcmL5OlEyZa4yw&usqp=CAU',
   })
   ImageURL: string;
+
+  @IsUUID(undefined, {each: true})
+  @ApiProperty({
+    description: 'Id do usuario',
+    example: 'asfdx52xq62xdqwd51cq5ef1ce5f1',
+  })
+  UsuariosId: string;
 }

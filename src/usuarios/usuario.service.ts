@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from "src/prisma/prisma.service";
 import { handleError } from "src/utils/handle-error";
@@ -14,7 +15,8 @@ export class UsuariosService{
       Email: true,
       CPF: true,
       Password: false,
-      isAdmin: true
+      isAdmin: true,
+      Perfis: true
   }
 
   constructor(private readonly prisma: PrismaService){
@@ -38,14 +40,26 @@ export class UsuariosService{
     return this.findById(id)
   }
 
-   async create(usuariosDto: CreateUsuariosDto):Promise<Usuario>{
-      if (usuariosDto.Password != usuariosDto.confirmPassword){
+   async create(createUsuariosDto: CreateUsuariosDto){
+      if (createUsuariosDto.Password != createUsuariosDto.confirmPassword){
         throw new BadRequestException('As senhas informadas não são iguais.')
       }
 
-      delete usuariosDto.confirmPassword
+      delete createUsuariosDto.confirmPassword
 
-      const data: Usuario = {...usuariosDto, Password: await bcrypt.hash(usuariosDto.Password, 10 )};
+      const data: Prisma.UsuariosCreateInput = {
+        Name: createUsuariosDto.Name,
+        Password: await bcrypt.hash(createUsuariosDto.Password, 10 ),
+        CPF: createUsuariosDto.CPF,
+        Email: createUsuariosDto.Email,
+        isAdmin: createUsuariosDto.isAdmin,
+        perfis: {
+          connect: createUsuariosDto.Perfis.map((perfilId) => ({
+             id: perfilId,
+          }))
+        }
+      }
+
     return this.prisma.usuarios.create({data, select:this.usuarioSelect }).catch(handleError)
   }
 

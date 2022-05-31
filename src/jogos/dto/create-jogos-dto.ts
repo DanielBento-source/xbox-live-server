@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsNumber, IsPositive, IsString, IsUrl } from "class-validator";
+import { Generos } from "@prisma/client";
+import { IsInt, IsNumber, IsPositive, IsString, IsUrl, IsUUID } from "class-validator";
 
 export class CreateJogosDto {
   @IsString()
@@ -50,4 +51,11 @@ export class CreateJogosDto {
     example: '<iframe width="1004" height="565" src="https://www.youtube.com/embed/vLj-27T-SEQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
   })
   TrailerYouTubeUrl:  string;
+
+  @IsUUID(undefined, {each: true})
+  @ApiProperty({
+    description: 'Id do usuario',
+    example: 'asfdx52xq62xdqwd51cq5ef1ce5f1',
+  })
+  Generos: string[];
 }

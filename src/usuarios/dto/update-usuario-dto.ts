@@ -12,4 +12,6 @@ export class UpdateUsuariosDto extends PartialType(CreateUsuariosDto){
   CPF: number;
 
   isAdmin: boolean;
+
+  Perfis?: string[];
 }

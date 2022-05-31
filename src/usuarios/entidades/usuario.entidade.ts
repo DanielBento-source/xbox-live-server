@@ -1,3 +1,5 @@
+import { Perfis } from "@prisma/client";
+
 export class Usuario {
   id?: string;
 
@@ -10,4 +12,6 @@ export class Usuario {
   CPF: number;
 
   isAdmin: boolean;
+
+  Perfis?: string[];
 }

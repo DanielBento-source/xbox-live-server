@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { Prisma } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 import { handleError } from "src/utils/handle-error";
 import { CreateJogosDto } from "./dto/create-jogos-dto";
@@ -30,15 +31,37 @@ export class JogosService{
     return this.findById(id)
   }
 
-    create(createDto: CreateJogosDto):Promise<Jogo>{
-      const data: Jogo = {...createDto};
+    create(jogosCreateDto: CreateJogosDto){
+      const data: Prisma.JogosCreateInput = {
+        Title: jogosCreateDto.Title,
+        CoverImageUrl: jogosCreateDto.CoverImageUrl,
+        Description: jogosCreateDto.Description,
+        Year: jogosCreateDto.Year,
+        ImdbScore: jogosCreateDto.ImdbScore,
+        TrailerYouTubeUrl: jogosCreateDto.TrailerYouTubeUrl,
+        GameplayYouTubeUrl: jogosCreateDto.GameplayYouTubeUrl,
+        generos: {
+          connect: jogosCreateDto.Generos.map((generosId) => ({id: generosId,}))
+        }
+      }
     return this.prisma.jogos.create({ data }).catch(handleError)
   }
 
-  async update(id: string, createDto: UpdateJogosDto): Promise<Jogo> {
+  async update(id: string, updateJogosDto: UpdateJogosDto): Promise<Jogo> {
     await this.findById(id)
 
-    const data: Partial<Jogo> = {...createDto}
+    const data: Prisma.JogosUpdateInput = {
+      Title: updateJogosDto.Title,
+        CoverImageUrl: updateJogosDto.CoverImageUrl,
+        Description: updateJogosDto.Description,
+        Year: updateJogosDto.Year,
+        ImdbScore: updateJogosDto.ImdbScore,
+        TrailerYouTubeUrl: updateJogosDto.TrailerYouTubeUrl,
+        GameplayYouTubeUrl: updateJogosDto.GameplayYouTubeUrl,
+        generos: {
+          connect: updateJogosDto.Generos.map((generosId) => ({id: generosId,}))
+        }
+    }
 
     return this.prisma.jogos.update({
       where: { id },

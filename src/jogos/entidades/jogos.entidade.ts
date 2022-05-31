@@ -1,3 +1,5 @@
+import { Generos } from "@prisma/client";
+
 export class Jogo {
   id?: string;
   Title: string;
@@ -7,4 +9,5 @@ export class Jogo {
   ImdbScore: number;
   TrailerYouTubeUrl: string;
   GameplayYouTubeUrl: string;
+  Generos?: Generos[];
 }
