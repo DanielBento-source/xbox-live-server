@@ -19,7 +19,7 @@ model Jogos {
   TrailerYouTubeUrl  String @map("trailer_youtube_url")
   GameplayYouTubeUrl String @map("gameplay_youtube_url")
 
-  perfis  Perfis[]
+  perfis  PerfisJogos[]
   generos Generos[]
 
   @@map("jogos")
@@ -52,10 +52,25 @@ model Perfis {
   Title    String @map("title")
   ImageURL String @map("image_url")
 
-  jogos Jogos[]
+  jogos PerfisJogos[]
 
   usuarios   Usuarios? @relation(fields: [usuariosId], references: [id])
   usuariosId String?   @map("usuarios_id")
 
   @@map("perfis")
+}
+
+model PerfisJogos {
+  id String @id @default(uuid())
+
+  perfis   Perfis @relation(fields: [perfisId], references: [id])
+  perfisId String @map("perfis_id")
+
+  jogos   Jogos  @relation(fields: [jogosId], references: [id])
+  jogosId String @map("jogos_id")
+
+  descricao String
+
+  @@unique([jogosId, perfisId])
+  @@map("perfis_jogos")
 }

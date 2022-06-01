@@ -4,6 +4,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { handleError } from "src/utils/handle-error";
 import { CreatePerfisDto } from "./dto/create-perfil-dto";
 import { UpdatePerfisDto } from "./dto/update-perfil-dto";
+import { UpdatePerfilJogosDto } from "./dto/update-perfil-jogos-dto";
 import { Perfil } from "./entidades/perfil.entidade";
 
 @Injectable()
@@ -20,7 +21,11 @@ export class PerfisService{
         Title: true,
         jogos:{
           select:{
-            Title: true,
+            jogos:{
+              select:{
+                 Title: true,
+              }
+            }
           }
         },
         usuarios:{
@@ -42,9 +47,13 @@ export class PerfisService{
       },
       jogos:{
         select:{
-          Title: true,
+          jogos:{
+            select:{
+               Title: true,
+            }
+          }
         }
-      }
+      },
 
     } });
 
@@ -63,9 +72,12 @@ export class PerfisService{
          Title: createPerfisDto.Title,
          ImageURL: createPerfisDto.ImageURL,
          jogos: {
-           connect: createPerfisDto.JogosId.map((IdDosJogos) => ({
-           id: IdDosJogos,
-         }))},
+           createMany: {
+             data: createPerfisDto.JogosId.map((createPerfilJogosDto) => ({
+              jogosId: createPerfilJogosDto.jogosId,
+              descricao: createPerfilJogosDto.descricao,
+            }))
+           }},
          usuarios: {
            connect: {
             id: createPerfisDto.UsuariosId
@@ -82,7 +94,11 @@ export class PerfisService{
           Title: true,
           jogos:{
             select:{
-              Title: true,
+              jogos:{
+                select:{
+                   Title: true,
+                }
+              }
             }
           },
           usuarios:{
@@ -95,17 +111,19 @@ export class PerfisService{
       }).catch(handleError)
   }
 
-  async update(id: string, updatePerfisDto: UpdatePerfisDto): Promise<Perfil> {
+  async update(id: string, updatePerfisDto: UpdatePerfisDto & UpdatePerfilJogosDto): Promise<Perfil> {
     await this.findById(id)
 
     const data: Prisma.PerfisUpdateInput = {
       Title: updatePerfisDto.Title,
       ImageURL: updatePerfisDto.ImageURL,
       jogos: {
-        connect: updatePerfisDto.JogosId.map((IdDosJogos) => ({
-          id: IdDosJogos,
-        }))
-      },
+           createMany: {
+             data: updatePerfisDto.JogosId.map((updatePerfilJogosDto) => ({
+              jogosId: updatePerfilJogosDto.jogosId,
+              descricao: updatePerfilJogosDto.descricao,
+            }))
+           }},
          usuarios: {
            connect: {
             id: updatePerfisDto.UsuariosId
