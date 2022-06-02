@@ -36,7 +36,7 @@ model Generos {
 
 model Usuarios {
   id       String  @id @default(uuid())
-  Name     String  @map("name")
+  Name     String  @unique @map("name")
   Email    String  @map("email")
   Password String  @map("password")
   CPF      Int     @map("cpf")

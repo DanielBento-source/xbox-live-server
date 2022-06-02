@@ -8,13 +8,13 @@ export class LoginDto {
     description:'Nome do Usuario',
     example: 'Daniel Bento'
   })
-  name: string;
+  Name: string;
 
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
     description:'Senha do usuario',
-    example: 'RollsRoyce973'
+    example: 'RollsRoyce97'
   })
   password: string;
 }
