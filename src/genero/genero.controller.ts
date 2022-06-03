@@ -1,11 +1,14 @@
-import { Body, Controller,Delete,Get, HttpCode, HttpStatus, Param, Patch, Post } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Body, Controller,Delete,Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { CreateGenerosDto } from "./dto/create-genero-dto";
 import { UpdateGenerosDto } from "./dto/update-genero-dto";
 import { Genero } from "./entidades/genero.entidade";
 import { GenerosService } from "./genero.service";
 
 @ApiTags('generos')
+@UseGuards(AuthGuard())
+@ApiBearerAuth()
 @Controller('generos')
 export class GenerosController {
   constructor  (private readonly generosService: GenerosService){

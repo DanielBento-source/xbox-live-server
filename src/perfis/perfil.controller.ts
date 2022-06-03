@@ -1,11 +1,14 @@
-import { Body, Controller,Delete,Get, HttpCode, HttpStatus, Param, Patch, Post } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Body, Controller,Delete,Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { CreatePerfisDto } from "./dto/create-perfil-dto";
 import { UpdatePerfisDto } from "./dto/update-perfil-dto";
 import { Perfil } from "./entidades/perfil.entidade";
 import { PerfisService } from "./perfil.service";
 
 @ApiTags('perfis')
+@UseGuards(AuthGuard())
+@ApiBearerAuth()
 @Controller('perfis')
 export class PerfisController {
   constructor  (private readonly perfisService: PerfisService){
