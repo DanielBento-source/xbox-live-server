@@ -67,7 +67,7 @@ export class PerfisService{
     return this.findById(id)
   }
 
-    create(createPerfisDto: CreatePerfisDto){
+    create(UsuariosId: string, createPerfisDto: CreatePerfisDto){
       const data: Prisma.PerfisCreateInput = {
          Title: createPerfisDto.Title,
          ImageURL: createPerfisDto.ImageURL,
@@ -80,7 +80,7 @@ export class PerfisService{
            }},
          usuarios: {
            connect: {
-            id: createPerfisDto.UsuariosId
+            id: UsuariosId
            }
          }
 

@@ -18,13 +18,6 @@ export class CreatePerfisDto {
   })
   ImageURL: string;
 
-  @IsUUID(undefined, {each: true})
-  @ApiProperty({
-    description: 'Id do usuario',
-    example: 'asfdx52xq62xdqwd51cq5ef1ce5f1',
-  })
-  UsuariosId: string;
-
   @ValidateNested({
     each: true,
   })

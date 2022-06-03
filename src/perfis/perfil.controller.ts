@@ -1,6 +1,8 @@
 import { Body, Controller,Delete,Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { LoggedUser } from "src/auth/logged-user-decorator";
+import { Usuario } from "src/usuarios/entidades/usuario.entidade";
 import { CreatePerfisDto } from "./dto/create-perfil-dto";
 import { UpdatePerfisDto } from "./dto/update-perfil-dto";
 import { Perfil } from "./entidades/perfil.entidade";
@@ -34,8 +36,8 @@ export class PerfisController {
   @ApiOperation({
     summary: 'Criar um perfil'
   })
-  create(@Body() perfilDto: CreatePerfisDto): Promise<Perfil>{
-    return this.perfisService.create(perfilDto)
+  create(@LoggedUser() user: Usuario, @Body() perfilDto: CreatePerfisDto): Promise<Perfil>{
+    return this.perfisService.create(user.id, perfilDto)
   }
 
   @Patch(':id')
