@@ -30,5 +30,4 @@ export class AuthController {
   profile(@LoggedUser() user: Usuario){
     return user
   }
-
 }
