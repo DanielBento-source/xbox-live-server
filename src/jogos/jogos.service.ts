@@ -4,7 +4,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { handleError } from "src/utils/handle-error";
 import { CreateJogosDto } from "./dto/create-jogos-dto";
 import { UpdateJogosDto } from "./dto/update-jogos-dto";
-import { Jogo } from "./entidades/jogos.entidade";
+import { Jogo  } from "./entidades/jogos.entidade";
 
 @Injectable()
 export class JogosService{
