@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Jogos {
+  id                 String @id @default(uuid())
+  Title              String @unique @map("title")
+  CoverImageUrl      String @map("cover_image_url")
+  Description        String @map("description")
+  Year               Int    @map("year")
+  ImdbScore          Int    @map("imdb_score")
+  TrailerYouTubeUrl  String @map("trailer_youtube_url")
+  GameplayYouTubeUrl String @map("gameplay_youtube_url")
+
+  perfis  PerfisJogos[]
+  generos Generos[]
+
+  @@map("jogos")
+}
+
+model Generos {
+  id   String @id @default(uuid())
+  Name String @unique @map("name")
+
+  jogos Jogos[]
+
+  @@map("generos")
+}
+
+model Usuarios {
+  id       String  @id @default(uuid())
+  Name     String  @unique @map("name")
+  Email    String  @map("email")
+  Password String  @map("password")
+  CPF      Int     @map("cpf")
+  isAdmin  Boolean @map("is_admin")
+
+  perfis Perfis[]
+
+  @@map("usuarios")
+}
+
+model Perfis {
+  id       String @id @default(uuid())
+  Title    String @map("title")
+  ImageURL String @map("image_url")
+
+  jogos PerfisJogos[]
+
+  usuarios   Usuarios? @relation(fields: [usuariosId], references: [id])
+  usuariosId String?   @map("usuarios_id")
+
+  @@map("perfis")
+}
+
+model PerfisJogos {
+  id String @id @default(uuid())
+
+  perfis   Perfis @relation(fields: [perfisId], references: [id])
+  perfisId String @map("perfis_id")
+
+  jogos   Jogos  @relation(fields: [jogosId], references: [id])
+  jogosId String @map("jogos_id")
+
+  descricao String
+
+  @@unique([jogosId, perfisId])
+  @@map("perfis_jogos")
+}
