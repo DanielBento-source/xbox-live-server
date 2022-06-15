@@ -41,21 +41,21 @@ export class CreateJogosDto {
   @IsUrl()
   @ApiProperty({
     description: 'endereço do video de Gameplay do jogo',
-    example: '<iframe width="1004" height="565" src="https://www.youtube.com/embed/XlrJ_urwp-Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+    example: "https://www.youtube.com/watch?v=vck7pnCjA-8",
   })
   GameplayYouTubeUrl: string;
 
   @IsUrl()
   @ApiProperty({
     description: 'endereço do trailer do jogo',
-    example: '<iframe width="1004" height="565" src="https://www.youtube.com/embed/vLj-27T-SEQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+    example: "https://www.youtube.com/watch?v=vLj-27T-SEQ&t=1s",
   })
   TrailerYouTubeUrl:  string;
 
   @IsUUID(undefined, {each: true})
   @ApiProperty({
     description: 'Id do usuario',
-    example: 'asfdx52xq62xdqwd51cq5ef1ce5f1',
+    example: ["d62ae305-6362-475b-a3f2-6bbd6fd9e695"],
   })
   Generos: string[];
 }

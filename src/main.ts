@@ -5,9 +5,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {cors: true,});
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
+  });
 
-  app.set('trust proxy', 1)
+  app.set('trust proxy', 1);
 
   app.useGlobalPipes(new ValidationPipe());
 
@@ -21,6 +23,7 @@ async function bootstrap() {
     .addTag('generos')
     .addTag('perfis')
     .addTag('usuarios')
+    .addTag('homepage')
     .addBearerAuth()
     .build();
 

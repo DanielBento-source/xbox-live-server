@@ -16,6 +16,7 @@ export class UsuariosService{
       CPF: true,
       Password: false,
       isAdmin: true,
+      perfis: true,
   }
 
   constructor(private readonly prisma: PrismaService){
@@ -52,11 +53,6 @@ export class UsuariosService{
         CPF: createUsuariosDto.CPF,
         Email: createUsuariosDto.Email,
         isAdmin: createUsuariosDto.isAdmin,
-        perfis: {
-          connect: createUsuariosDto.Perfis.map((perfilId) => ({
-             id: perfilId,
-          }))
-        }
       }
 
     return this.prisma.usuarios.create({data, select:this.usuarioSelect }).catch(handleError)

@@ -48,11 +48,4 @@ export class CreateUsuariosDto {
   })
   isAdmin: boolean;
 
-  @IsUUID(undefined, {each: true})
-  @ApiProperty({
-    description: 'Id dos perfis',
-    example: '[asfdx52xq62xdqwd51cq5ef1ce5f1,  sfcwefcewcwecqcqce5cqwce85fc1e]',
-  })
-  Perfis: string[];
-
 }

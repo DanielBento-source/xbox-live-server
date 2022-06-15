@@ -30,7 +30,15 @@ export class GenerosService{
    return this.findById(id)
   }
 
-    create(generosDto: CreateGenerosDto):Promise<Genero>{
+   async create(generosDto: CreateGenerosDto):Promise<Genero>{
+      const genero = await this.prisma.generos.findUnique({
+        where: {
+          Name: generosDto.Name,
+        }
+      })
+      if (genero){
+        throw new NotFoundException('Gênero ja cadastrado')
+      }
       const data: Genero = {...generosDto};
     return this.prisma.generos.create({data}).catch(handleError)
   }
